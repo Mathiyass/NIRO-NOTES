@@ -17,6 +17,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onBack }) => {
   const [color, setColor] = useState(noteColors[0]);
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const geminiEnabled = geminiService.isGeminiAvailable();
   
   const originalNoteState = JSON.stringify({
     title: note?.title || '',
@@ -85,7 +86,8 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onBack }) => {
             <span className="hidden sm:inline">Back to Notes</span>
           </button>
           <div className="flex items-center gap-2">
-            <button
+            {geminiEnabled && (
+              <button
                 onClick={handleSummarize}
                 disabled={isSummarizing || !content}
                 className="flex items-center gap-2 px-4 py-2 rounded-md bg-purple-500 text-white hover:bg-purple-600 transition disabled:bg-purple-300 dark:disabled:bg-purple-800 disabled:cursor-not-allowed"
@@ -97,6 +99,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onBack }) => {
                 )}
                 <span className="hidden sm:inline">{isSummarizing ? 'Summarizing...' : 'Summarize'}</span>
             </button>
+            )}
             <button onClick={handleSave} className="px-4 py-2 rounded-md bg-primary-600 text-white hover:bg-primary-700 transition">
               <i className="fas fa-save mr-2"></i>
               <span className="hidden sm:inline">Save</span>

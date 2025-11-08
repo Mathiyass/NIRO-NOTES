@@ -1,16 +1,21 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Ensure you have your API key in an environment variable
 const apiKey = process.env.API_KEY;
-if (!apiKey) {
-    console.warn("API_KEY environment variable not set. Gemini features will not work.");
+
+export const isGeminiAvailable = (): boolean => {
+  return !!apiKey;
+};
+
+const ai = isGeminiAvailable() ? new GoogleGenAI({ apiKey: apiKey! }) : null;
+
+if (!ai) {
+    console.warn("API_KEY environment variable not set. Gemini features will be disabled.");
 }
-const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
 export const summarizeWithGemini = async (text: string): Promise<string> => {
-  if (!apiKey) {
-    throw new Error("Gemini API key is not configured.");
+  if (!ai) {
+    throw new Error("Gemini API is not available or configured.");
   }
   
   try {
