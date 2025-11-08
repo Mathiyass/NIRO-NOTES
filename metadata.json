@@ -1,0 +1,5 @@
+{
+  "name": "NIRO NOTES",
+  "description": "A modern, responsive note-taking web application named NIRO NOTES, built with React and Tailwind CSS, featuring local storage persistence and AI-powered summarization with the Gemini API.",
+  "requestFramePermissions": []
+}
